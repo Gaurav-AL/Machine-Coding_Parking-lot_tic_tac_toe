@@ -55,8 +55,18 @@ class Tsp{
         return total_dist;
     }
     public double minimizeDistance(){
-        double total_dost = Double.MAX_VALUE;
-        
+        double total_dist = Double.MAX_VALUE;
+        int temp = 100;
+        // Now think about Best Cost Function to achieve optimal solution in
+        // Good Time Complexity..Hill Climbing Approach
+        while(temp-- != 0){
+            ArrayList<Integer> traverse = new ArrayList<>();
+            for(int i = 0 ; i < cities.size();i++){
+              traverse.add(); 
+          }
+          total_dist = Math.min(total_dist,calculateDistance(traverse));
+        }
+        return total_dist;
     }
     public static void main(String[] args) {
         ArrayList<City> cities = new ArrayList<>();
