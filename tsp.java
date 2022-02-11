@@ -95,12 +95,13 @@ class Tsp{
         City c19 = new City(186.8032,449.9557,"Laal Ganj",18);
         City c20 = new City(264.57,410.328,"Pechaura",19);
         City c21 = new City(221.5852,442.8863,"Pani Ganj",20);
+
+        
         cities.add(c1);
         cities.add(c2);
         cities.add(c3);
         cities.add(c4);
         cities.add(c5);
-        
         cities.add(c6);
         cities.add(c7);
         cities.add(c8);
