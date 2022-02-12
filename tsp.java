@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.util.Collections;
 class City{
@@ -58,10 +57,10 @@ class Tsp{
     }
     public double minimizeDistance(){
         double total_dist = Double.MAX_VALUE;
-        int temp = 150;
+        int temp = 100;
         
         while(temp-- != 0){
-            System.out.print(temp +"  ");
+            System.out.print("Temp :"+ temp +"  ");
             ArrayList<Integer> traverse = new ArrayList<>();
             for(int i = 0;  i < cities.size();i++){
                 traverse.add(i);
