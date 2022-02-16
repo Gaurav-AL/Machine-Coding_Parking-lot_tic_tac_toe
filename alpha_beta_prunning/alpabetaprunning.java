@@ -22,11 +22,11 @@ class AlphaBetaPrunning{
         this.nodes = nodes;
     }
 
-    public void undirectedChildLinks(Node n1,Node n2){
+    public void directedChildLinks(Node n1,Node n2){
         n1.neighbour.add(n2);
     }
 
-    public void undirectedLeafLinks(Node n1, LeafNode n2){
+    public void directedLeafLinks(Node n1, LeafNode n2){
         n1.leaf.add(n2);
     }
     public ArrayList<Node> getChildNeighbours(Node n1){
@@ -186,21 +186,21 @@ class AlphaBetaPrunning{
         LeafNode l9 = new LeafNode(2);
 
         AlphaBetaPrunning abp = new AlphaBetaPrunning(nodes);
-        abp.undirectedChildLinks(root, n2);
-        abp.undirectedChildLinks(root, n3);
-        abp.undirectedChildLinks(root, n4);
+        abp.directedChildLinks(root, n2);
+        abp.directedChildLinks(root, n3);
+        abp.directedChildLinks(root, n4);
 
-        abp.undirectedLeafLinks(n2, l1);
-        abp.undirectedLeafLinks(n2, l2);
-        abp.undirectedLeafLinks(n2, l3);
+        abp.directedLeafLinks(n2, l1);
+        abp.directedLeafLinks(n2, l2);
+        abp.directedLeafLinks(n2, l3);
 
-        abp.undirectedLeafLinks(n3, l4);
-        abp.undirectedLeafLinks(n3, l5);
-        abp.undirectedLeafLinks(n3, l6);
+        abp.directedLeafLinks(n3, l4);
+        abp.directedLeafLinks(n3, l5);
+        abp.directedLeafLinks(n3, l6);
 
-        abp.undirectedLeafLinks(n4, l7);
-        abp.undirectedLeafLinks(n4, l8);
-        abp.undirectedLeafLinks(n4, l9);
+        abp.directedLeafLinks(n4, l7);
+        abp.directedLeafLinks(n4, l8);
+        abp.directedLeafLinks(n4, l9);
 
         System.out.println("---------------Without Prunning-------------------------");
         abp.minimax(root);
