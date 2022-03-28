@@ -92,7 +92,7 @@ class EightPuzzle {
         return new_puzzle;
     }
     public void aStarAlgo(ArrayList<ArrayList<String>> initial_config){
-        
+        ArrayList<ArrayList<Integer>> path = new ArrayList<>();
         ArrayList<Integer> pair = new ArrayList<>();
         int heuristics = getHeuristics(initial_config);
         int levels = 0;
@@ -102,7 +102,7 @@ class EightPuzzle {
         puzzle.heuristics = heuristics;
         puzzle.total = puzzle.levels + puzzle.heuristics;
         pair = getFreeSpace(puzzle.puzzle);
-        System.out.print("Initial Configuration :"+puzzle.puzzle);
+        
         int row = pair.get(0);
         int col = pair.get(1);
         while(!puzzle.puzzle.equals(goal_state)){
@@ -111,7 +111,7 @@ class EightPuzzle {
             levels += 1;
             if(row+1 < 3){
                 init_puzzle = copyArrayList(puzzle.puzzle);
-                System.out.println("\nBefore Down Shift :"+init_puzzle+" row :" + row+" col :"+col);
+                System.out.println("\nBefore Down Shift :"+init_puzzle);
                 
                 ArrayList<ArrayList<String>> down = new ArrayList<>();
                 down = downShiftingBlocks(init_puzzle, row, col);
@@ -122,7 +122,7 @@ class EightPuzzle {
                 down_p.heuristics = heuristic1;
                 down_p.total = down_p.levels + down_p.heuristics; 
 
-                System.out.println("\nAfter Down Shift :"+down + "Total Heuristics :" + down_p.total);
+                System.out.println("\nAfter Down Shift :"+down + "-->Total Heuristics :" + down_p.total);
                 if(down_p.heuristics < intital_heu){
                     final_p = down_p;
                     final_p.heuristics = down_p.heuristics;
@@ -132,7 +132,7 @@ class EightPuzzle {
             }
             if(row-1 >= 0){
                 init_puzzle = copyArrayList(puzzle.puzzle);
-                System.out.println("\nBefore Up Shift :"+init_puzzle+" row :" + row+" col :"+col);
+                System.out.println("\nBefore Up Shift :"+init_puzzle);
                 ArrayList<ArrayList<String>> up = new ArrayList<>();
                 up = upShiftingBlocks(init_puzzle, row, col);
                 
@@ -142,7 +142,7 @@ class EightPuzzle {
                 up_p.levels = levels;
                 up_p.heuristics = heuristic2;
                 up_p.total = up_p.levels + up_p.heuristics; 
-                System.out.println("After Left Shift :"+up + "Total Heuristics :" + up_p.total);
+                System.out.println("After Up Shift :"+up + "-->Total Heuristics :" + up_p.total);
                 if(up_p.heuristics < intital_heu && up_p.heuristics < final_p.heuristics){
                     final_p.heuristics = up_p.heuristics;
                     final_p = up_p;
@@ -152,7 +152,7 @@ class EightPuzzle {
             }
             if(col-1 >= 0){
                 init_puzzle = copyArrayList(puzzle.puzzle);
-                System.out.println("\nBefore Left Shift :"+init_puzzle+" row :" + row+" col :"+col);
+                System.out.println("\nBefore Left Shift :"+init_puzzle);
                 ArrayList<ArrayList<String>> left = new ArrayList<>();
                 left = leftShiftingBlocks(init_puzzle,row, col);
                 
@@ -163,7 +163,7 @@ class EightPuzzle {
                 left_p.heuristics = heuristic3;
                 left_p.total = left_p.levels + left_p.heuristics; 
                 
-                System.out.println("After Left Shift :"+left + "Total Heuristics :" + left_p.total); 
+                System.out.println("After Left Shift :"+left + "-->Total Heuristics :" + left_p.total); 
                 if(left_p.heuristics < intital_heu && left_p.heuristics < final_p.heuristics){
                     final_p.heuristics = left_p.heuristics;
                     final_p = left_p;
@@ -172,7 +172,7 @@ class EightPuzzle {
             }
             if(col+1 < 3){
                 init_puzzle = copyArrayList(puzzle.puzzle);
-                System.out.println("\nBefore Right Shift :"+init_puzzle+ " row :" + row+" col :"+col);
+                System.out.println("\nBefore Right Shift :"+init_puzzle);
                 ArrayList<ArrayList<String>> right = new ArrayList<>();
                 right = rightShiftingBlocks(init_puzzle,row, col);
                 
@@ -182,7 +182,7 @@ class EightPuzzle {
                 right_p.levels = levels;
                 right_p.heuristics = heuristic4;
                 right_p.total = right_p.levels + right_p.heuristics; 
-                System.out.println("After Right Shift :"+right + "Total Heuristics :" + right_p.total);
+                System.out.println("After Right Shift :"+right + "-->Total Heuristics :" + right_p.total);
                 if(right_p.heuristics < intital_heu && right_p.heuristics < final_p.heuristics){
                     final_p.heuristics = right_p.heuristics;
                     final_p = right_p;
@@ -195,13 +195,18 @@ class EightPuzzle {
             // After this we have to take execute it till new state become equals to goal state
             puzzle.puzzle = final_p.puzzle;
             pair = getFreeSpace(puzzle.puzzle);
+            path.add(pair);
             row = pair.get(0);
             col = pair.get(1);
 
-            if(puzzle.heuristics == 0)
-            break;
-            System.out.println("############################################ ::::::"+final_p.puzzle);
-
+            if(final_p.heuristics == 0){
+                System.out.println("########REACHED GOAL STATE########## ::::::"+final_p.puzzle);
+                System.out.print("Shortest Path is -->"+path);
+            }
+            else{
+                System.out.println("########REACHED Intermediate STATE######## ::::::"+final_p.puzzle);
+            }
+            
             
         }
 
@@ -230,9 +235,9 @@ class EightPuzzle {
             for(int j = 0; j < 3; j++){
                 config.add(read.nextLine());
             }
-            initial_state.add(config);
-               
+            initial_state.add(config);     
         }
+        System.out.println("Initial State :"+initial_state);
         eight_puzzle.aStarAlgo(initial_state);
        
     }

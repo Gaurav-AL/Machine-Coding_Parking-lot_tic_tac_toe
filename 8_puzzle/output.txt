@@ -1,0 +1,73 @@
+Enter Goal State :
+Defined Goal State :[[1, 2, 3], [8, , 4], [7, 6, 5]]
+Enter Intitial State :
+Initial State :[[2, 8, 3], [1, 6, 4], [7, , 5]]
+
+Before Up Shift :[[2, 8, 3], [1, 6, 4], [7, , 5]]
+After Up Shift :[[2, 8, 3], [1, , 4], [7, 6, 5]]-->Total Heuristics :4
+
+
+Before Left Shift :[[2, 8, 3], [1, 6, 4], [7, , 5]]
+After Left Shift :[[2, 8, 3], [1, 6, 4], [, 7, 5]]-->Total Heuristics :6
+
+
+Before Right Shift :[[2, 8, 3], [1, 6, 4], [7, , 5]]
+After Right Shift :[[2, 8, 3], [1, 6, 4], [7, 5, ]]-->Total Heuristics :6
+
+########REACHED Intermediate STATE######## ::::::[[2, 8, 3], [1, , 4], [7, 6, 5]]
+
+Before Down Shift :[[2, 8, 3], [1, , 4], [7, 6, 5]]
+
+After Down Shift :[[2, 8, 3], [1, 6, 4], [7, , 5]]-->Total Heuristics :6
+
+
+Before Up Shift :[[2, 8, 3], [1, , 4], [7, 6, 5]]
+After Up Shift :[[2, , 3], [1, 8, 4], [7, 6, 5]]-->Total Heuristics :5
+
+
+Before Left Shift :[[2, 8, 3], [1, , 4], [7, 6, 5]]
+After Left Shift :[[2, 8, 3], [, 1, 4], [7, 6, 5]]-->Total Heuristics :5
+
+
+Before Right Shift :[[2, 8, 3], [1, , 4], [7, 6, 5]]
+After Right Shift :[[2, 8, 3], [1, 4, ], [7, 6, 5]]-->Total Heuristics :6
+
+########REACHED Intermediate STATE######## ::::::[[2, , 3], [1, 8, 4], [7, 6, 5]]
+
+Before Down Shift :[[2, , 3], [1, 8, 4], [7, 6, 5]]
+
+After Down Shift :[[2, 8, 3], [1, , 4], [7, 6, 5]]-->Total Heuristics :6
+
+
+Before Left Shift :[[2, , 3], [1, 8, 4], [7, 6, 5]]
+After Left Shift :[[, 2, 3], [1, 8, 4], [7, 6, 5]]-->Total Heuristics :5
+
+
+Before Right Shift :[[2, , 3], [1, 8, 4], [7, 6, 5]]
+After Right Shift :[[2, 3, ], [1, 8, 4], [7, 6, 5]]-->Total Heuristics :7
+
+########REACHED Intermediate STATE######## ::::::[[, 2, 3], [1, 8, 4], [7, 6, 5]]
+
+Before Down Shift :[[, 2, 3], [1, 8, 4], [7, 6, 5]]
+
+After Down Shift :[[1, 2, 3], [, 8, 4], [7, 6, 5]]-->Total Heuristics :5
+
+
+Before Right Shift :[[, 2, 3], [1, 8, 4], [7, 6, 5]]
+After Right Shift :[[2, , 3], [1, 8, 4], [7, 6, 5]]-->Total Heuristics :7
+
+########REACHED Intermediate STATE######## ::::::[[1, 2, 3], [, 8, 4], [7, 6, 5]]
+
+Before Down Shift :[[1, 2, 3], [, 8, 4], [7, 6, 5]]
+
+After Down Shift :[[1, 2, 3], [7, 8, 4], [, 6, 5]]-->Total Heuristics :7
+
+
+Before Up Shift :[[1, 2, 3], [, 8, 4], [7, 6, 5]]
+After Up Shift :[[, 2, 3], [1, 8, 4], [7, 6, 5]]-->Total Heuristics :7
+
+
+Before Right Shift :[[1, 2, 3], [, 8, 4], [7, 6, 5]]
+After Right Shift :[[1, 2, 3], [8, , 4], [7, 6, 5]]-->Total Heuristics :5
+
+########REACHED GOAL STATE########## ::::::[[1, 2, 3], [8, , 4], [7, 6, 5]]
