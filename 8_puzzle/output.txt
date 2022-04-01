@@ -71,3 +71,9 @@ Before Right Shift :[[1, 2, 3], [, 8, 4], [7, 6, 5]]
 After Right Shift :[[1, 2, 3], [8, , 4], [7, 6, 5]]-->Total Heuristics :5
 
 ########REACHED GOAL STATE########## ::::::[[1, 2, 3], [8, , 4], [7, 6, 5]]
+
+
+
+
+
+
