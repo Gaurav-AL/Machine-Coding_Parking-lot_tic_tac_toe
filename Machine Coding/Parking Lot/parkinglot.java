@@ -22,8 +22,8 @@ class Floors{
     
 }
 class ParkingLot{
-    ArrayList<Floors> floors = new ArrayList<>();
-    ArrayList<String> ticket_id = new ArrayList<>();
+    HashMap<Integer,Floors> floors = new HashMap<>();
+    HashMap<String,HashMap<String,String>> ticket_info = new HashMap<>();
    
     
     public void createParkingLot(int no_of_floors, int no_of_slots){  
@@ -45,7 +45,7 @@ class ParkingLot{
             }
         }
         for(int i = 0; i < no_of_floors; i++){
-            floors.add(new Floors(cars_slot_no, bikes_slot_no,truck_slot_no,(i+1)));
+            floors.put((i+1),new Floors(cars_slot_no, bikes_slot_no,truck_slot_no,(i+1)));
         }
         
         System.out.println("Created Parking lot with "+no_of_floors +" floors and "+no_of_slots+" slots per floor.");
@@ -56,7 +56,7 @@ class ParkingLot{
         vehicle_type = vehicle_type.toLowerCase();
         
         for(int i = 0;i < len; i++){
-            Floors floor = floors.get(i);
+            Floors floor = floors.get(i+1);
             if(vehicle_type.equals("truck")){
                 int free_slots_for_truck = 0;
                 int length = floor.truck_slot_no.size();
@@ -94,7 +94,7 @@ class ParkingLot{
         vehicle_type = vehicle_type.toLowerCase();
         for(int i = 0;i < len; i++){
             ArrayList<Integer> free_slots = new ArrayList<>();
-            Floors floor = floors.get(i);
+            Floors floor = floors.get(i+1);
 
             if(vehicle_type.equals("truck")){
                 
@@ -133,7 +133,7 @@ class ParkingLot{
         
         for(int i = 0;i < len; i++){
             ArrayList<Integer> occupied_slots = new ArrayList<>();
-            Floors floor = floors.get(i);
+            Floors floor = floors.get(i+1);
             if(vehicle_type.equals("truck")){
                 
                 int length = floor.truck_slot_no.size();
@@ -169,7 +169,7 @@ class ParkingLot{
         vehicle_type = vehicle_type.toLowerCase();
         int no_of_floor = floors.size();
         for(int i = 0 ;i < no_of_floor; i++){
-            Floors floor = floors.get(i);
+            Floors floor = floors.get(i+1);
             // System.out.println(floor);
             int flag = 0;
             if(vehicle_type.equals("car")){
@@ -212,24 +212,29 @@ class ParkingLot{
             System.out.println("Parking Lot Full ");
         }
         if(flag == 1){ // for handling latest floor and slot
+                HashMap<String,String> ticket_id = new HashMap<>();
                 park_id = String.format("PR1234_%d_%d", floor_no,slot_no);
-                ticket_id.add(park_id);
+                ticket_id.put(reg_no,color);
+                ticket_info.put(park_id,ticket_id);
                 System.out.println("Parked vehicle. Ticket ID: "+park_id);
             break;
         }
     }
     
+
+
     if(floors.get(0) == floors.get(1)){
         System.out.println("true");
     }
     }
     public void unparkVehicle(String park_id){
+        
         String[] ticket = park_id.split("_");
         int floor_no = Integer.valueOf(ticket[1]);
         int slot_no = Integer.valueOf(ticket[2]);
         
-        if(ticket_id.contains(park_id)){
-            Floors floor = floors.get(floor_no-1);
+        if(ticket_info.containsKey(park_id)){
+            Floors floor = floors.get(floor_no);
             if(slot_no == 1){
                 floor.truck_slot_no.replace(slot_no,false);
             }
@@ -239,7 +244,7 @@ class ParkingLot{
             else{
                 floor.cars_slot_no.replace(slot_no,false);
             }
-
+            System.out.println("Unparked vehicle with Registration Number:"+ ticket_info.get(park_id).keySet()+" and Color: "+ ticket_info.get(park_id).values());
         }
         else{
             System.out.println("Invalid Ticket ID");
@@ -248,13 +253,14 @@ class ParkingLot{
       public static void main(String... parking) throws Exception{
        
         ParkingLot parking_lot = new ParkingLot();
-        String vehicle_type = "",reg_no= "",color = "",ticket_id= "";
+        String vehicle_type = "",reg_no= "",color = "";
         String input = "";
         String[] operation;
         Scanner read = new Scanner(System.in);
         while(!input.equals("exit")){
             input= read.nextLine();
             operation = input.split(" ");
+            
             if(operation[0].equals("create_parking_lot")){
             
             parking_lot.createParkingLot(Integer.valueOf(operation[2]),Integer.valueOf(operation[3]));
@@ -266,28 +272,31 @@ class ParkingLot{
                 vehicle_type = operation[2];
                 parking_lot.displayFreeCount(vehicle_type);
             }
+
             if(operation[1].equals("free_slots")){
                 vehicle_type = operation[2];
                 parking_lot.displayFreeSlots(vehicle_type);
             }
+
             if(operation[1].equals("occupied_slots")){
                 vehicle_type = operation[2];
                 parking_lot.displayOccupiedSlots(vehicle_type);
             }
         }
+
         if(operation[0].equals("park_vehicle")){
             vehicle_type = operation[1];
             reg_no = operation[2];
             color = operation[3];
             parking_lot.parkVehicle(vehicle_type,reg_no,color);
         }
+
         if(operation[0].equals("unpark_vehicle")){
-            vehicle_type = operation[1];
-            parking_lot.unparkVehicle(ticket_id);
+            parking_lot.unparkVehicle(operation[1]);
         }
         if(operation[0].equals("exit")){
             System.exit(0);
+            }
         }
-    }
     }
 }

@@ -1,4 +1,4 @@
-create_parking_lot PR1234 3 6
+create_parking_lot PR1234 4 10
 display free_count CAR
 display free_count BIKE
 display free_count TRUCK
@@ -12,4 +12,7 @@ park_vehicle CAR KA-01-DB-1234 black
 park_vehicle CAR KA-02-CB-1334 red
 unpark_vehicle PR1234_1_4
 display free_slots CAR
+display occupied_slots CAR
+display free_slots TRUCK
+display free_slots BIKE
 exit
