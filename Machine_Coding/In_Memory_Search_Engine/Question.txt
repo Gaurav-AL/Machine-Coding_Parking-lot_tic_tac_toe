@@ -1,0 +1,21 @@
+Your organisation has started a new tech blog with interesting tech stories and you're responsible 
+for designing and implementing an in-memory search engine. Supporting the search functionality on the blog content.
+It should support the following.
+A. It should be possible to create a dataset in the search engine.
+B. It should be possible to insert documents into a given dataset. Each document is simply a piece of text.
+C. It should be possible to search through documents for a search pattern in a given dataset. 
+A search pattern could have one or more words. When there are more words,
+ all the words in the search pattern should be present anywhere in the document to match, 
+ irrespective of their order. Assume that the search is case-insensitive.
+
+Examples:
+
+Search term: apple
+
+Document id: Document
+Doc1: apple is a fruit
+Doc2: apple apple come on
+Doc3: oranges are sour
+Doc 4: apple is sweet
+Doc 5: veggies are healthy
+Result : Doc2, Doc1, Doc4
