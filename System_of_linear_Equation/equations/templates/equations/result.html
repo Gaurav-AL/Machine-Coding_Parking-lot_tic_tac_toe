@@ -13,7 +13,7 @@
             <div class="steps-container">
             {% for step in steps %}
                 <div class="step">
-                    <div class="step-content">{{ step.content }}</div>
+                    <div class="step-content">{{ step.content|safe }}</div>
                     <div class="step-explanation">{{ step.explanation }}</div>
                 </div>
             {% endfor %}

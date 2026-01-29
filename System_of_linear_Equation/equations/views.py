@@ -86,11 +86,11 @@ def auto_solve(R, C, n, matrix_a, matrix_b, variable):
         return {'steps': steps, 'result': result}
         
     if C == R and np.linalg.det(matrix_a) != 0:
-        steps.append({'content': 'Using matrix inversion method for square system.', 'explanation': 'For square matrices with non-zero determinant, we can find the inverse and solve x = A⁻¹ b.'})
+        steps.append({'content': f'Using matrix inversion: x = A⁻¹ b<br>A = {matrix_a}<br>b = {matrix_b}', 'explanation': 'For square matrices with non-zero determinant, we can find the inverse and solve x = A⁻¹ b.'})
         inv_matrix_a = np.linalg.inv(matrix_a)
-        steps.append({'content': 'Computed inverse of matrix A.', 'explanation': 'A⁻¹ is calculated numerically to allow multiplication.'})
+        steps.append({'content': f'Computed inverse of A:<br>A⁻¹ = {inv_matrix_a.tolist()}', 'explanation': 'A⁻¹ is calculated numerically to allow multiplication.'})
         matrix_mul = multiplymatrix(inv_matrix_a, matrix_b)
-        steps.append({'content': 'Multiplied inverse A with vector b to get solution x.', 'explanation': 'x = A⁻¹ b gives the unique solution.'})
+        steps.append({'content': f'Multiplied: x = A⁻¹ b = {matrix_mul}', 'explanation': 'x = A⁻¹ b gives the unique solution.'})
         result.append({'type': 'message', 'content': "System has Unique Solution"})
         solution = printOutput(matrix_mul)
         result.append({'type': 'solution', 'content': solution})
@@ -98,14 +98,14 @@ def auto_solve(R, C, n, matrix_a, matrix_b, variable):
     
     # m > n
     if R > C:
-        steps.append({'content': 'Overdetermined system (more equations than variables), using least squares method.', 'explanation': 'Least squares finds the best approximation when no exact solution exists.'})
+        steps.append({'content': f'Overdetermined system: A (size {R}x{C}) x = b<br>A = {matrix_a}<br>b = {matrix_b}', 'explanation': 'Least squares finds the best approximation when no exact solution exists.'})
         transpose_matrix = transposeMatrix(matrix_a)
-        steps.append({'content': 'Transposed matrix A to get A^T.', 'explanation': 'Transpose is needed for the normal equations.'})
+        steps.append({'content': f'Transposed A: A^T = {transpose_matrix}', 'explanation': 'Transpose is needed for the normal equations.'})
         matrix_mul = multiplymatrix(transpose_matrix, matrix_a)
-        steps.append({'content': 'Computed A^T * A.', 'explanation': 'This forms the normal matrix, which is square and invertible if columns are independent.'})
+        steps.append({'content': f'Computed A^T A = {matrix_mul.tolist()}', 'explanation': 'This forms the normal matrix, which is square and invertible if columns are independent.'})
         matrix_det = np.linalg.det(matrix_mul)
         matrix_inv = np.linalg.inv(matrix_mul)
-        steps.append({'content': 'Inverted A^T * A.', 'explanation': 'Inverting this matrix allows solving the system.'})
+        steps.append({'content': f'Inverted A^T A: (A^T A)^-1 = {matrix_inv.tolist()}', 'explanation': 'Inverting this matrix allows solving the system.'})
         if matrix_det != 0:
             result.append({'type': 'message', 'content': "Columns are Linearly Independent, Proceeding Forward....."})
         else:
@@ -113,23 +113,23 @@ def auto_solve(R, C, n, matrix_a, matrix_b, variable):
             return {'steps': steps, 'result': result}
         
         intermediate_matrix = multiplymatrix(transpose_matrix, matrix_b)
-        steps.append({'content': 'Computed A^T * b.', 'explanation': 'This is the right-hand side for the normal equations.'})
+        steps.append({'content': f'Computed A^T b = {intermediate_matrix}', 'explanation': 'This is the right-hand side for the normal equations.'})
         matrix_sol = multiplymatrix(matrix_inv, intermediate_matrix)
-        steps.append({'content': 'Solved for x using (A^T A)^-1 * A^T b.', 'explanation': 'This gives the least squares solution that minimizes the error.'})
+        steps.append({'content': f'Solved x = (A^T A)^-1 (A^T b) = {matrix_sol}', 'explanation': 'This gives the least squares solution that minimizes the error.'})
         solution = printOutput(matrix_sol)
         result.append({'type': 'solution', 'content': solution})
         return {'steps': steps, 'result': result}
     
     # m < n
     if R < C:
-        steps.append({'content': 'Underdetermined system (fewer equations than variables), using least squares approximation.', 'explanation': 'We find a solution that minimizes the norm.'})
+        steps.append({'content': f'Underdetermined system: A (size {R}x{C}) x = b<br>A = {matrix_a}<br>b = {matrix_b}', 'explanation': 'We find a solution that minimizes the norm.'})
         transpose_matrix = transposeMatrix(matrix_a)
-        steps.append({'content': 'Transposed matrix A.', 'explanation': 'Transpose for pseudoinverse calculation.'})
+        steps.append({'content': f'Transposed A: A^T = {transpose_matrix}', 'explanation': 'Transpose for pseudoinverse calculation.'})
         matrix_mul = multiplymatrix(matrix_a, transpose_matrix)
-        steps.append({'content': 'Computed A * A^T.', 'explanation': 'This is used to find the pseudoinverse.'})
+        steps.append({'content': f'Computed A A^T = {matrix_mul.tolist()}', 'explanation': 'This is used to find the pseudoinverse.'})
         matrix_det = np.linalg.det(matrix_mul)
         matrix_inv = np.linalg.inv(matrix_mul)
-        steps.append({'content': 'Inverted A * A^T.', 'explanation': 'Inverting this square matrix.'})
+        steps.append({'content': f'Inverted A A^T: (A A^T)^-1 = {matrix_inv.tolist()}', 'explanation': 'Inverting this square matrix.'})
         if matrix_det != 0:
             result.append({'type': 'message', 'content': "Columns are Linearly Independent, Proceeding Forward....."})
         else:
@@ -137,14 +137,17 @@ def auto_solve(R, C, n, matrix_a, matrix_b, variable):
             return {'steps': steps, 'result': result}
         
         intermediate_matrix = multiplymatrix(transpose_matrix, matrix_inv)
-        steps.append({'content': 'Computed A^T * (A A^T)^-1.', 'explanation': 'This is part of the pseudoinverse.'})
+        steps.append({'content': f'Computed A^T (A A^T)^-1 = {intermediate_matrix.tolist()}', 'explanation': 'This is part of the pseudoinverse.'})
         matrix_sol = multiplymatrix(intermediate_matrix, matrix_b)
-        steps.append({'content': 'Solved for x using A^T (A A^T)^-1 b.', 'explanation': 'This gives one possible solution.'})
+        steps.append({'content': f'Solved x = A^T (A A^T)^-1 b = {matrix_sol}', 'explanation': 'This gives one possible solution.'})
         solution = printOutput(matrix_sol)
         result.append({'type': 'solution', 'content': solution})
         return {'steps': steps, 'result': result}
     
     return {'steps': steps, 'result': result}
+
+def format_matrix(mat):
+    return '<br>'.join([' '.join([f'{x:.3f}' for x in row]) for row in mat])
 
 def gaussian_elimination(A, b, variable, n):
     steps = []
@@ -158,7 +161,7 @@ def gaussian_elimination(A, b, variable, n):
     steps.append({'content': 'Starting Gaussian Elimination.', 'explanation': 'Gaussian elimination transforms the system into row echelon form for easy solving.'})
     # Create augmented matrix
     aug = [row[:] + [b[i]] for i, row in enumerate(A)]
-    steps.append({'content': f'Augmented matrix: {aug}', 'explanation': 'Combine A and b into [A|b] for simultaneous operations.'})
+    steps.append({'content': f'Augmented matrix [A|b]:<br>{format_matrix(aug)}', 'explanation': 'Combine A and b into [A|b] for simultaneous operations.'})
     
     # Forward elimination
     for i in range(len(aug)):
@@ -167,7 +170,7 @@ def gaussian_elimination(A, b, variable, n):
             for j in range(i+1, len(aug)):
                 if aug[j][i] != 0:
                     aug[i], aug[j] = aug[j], aug[i]
-                    steps.append({'content': f'Swapped row {i} and {j}.', 'explanation': 'Ensure pivot is non-zero for elimination.'})
+                    steps.append({'content': f'Swapped row {i} and {j}.<br>New matrix:<br>{format_matrix(aug)}', 'explanation': 'Ensure pivot is non-zero for elimination.'})
                     break
         if aug[i][i] == 0:
             result.append({'type': 'message', 'content': "Matrix is singular, cannot proceed."})
@@ -176,9 +179,10 @@ def gaussian_elimination(A, b, variable, n):
         # Eliminate
         for j in range(i+1, len(aug)):
             factor = aug[j][i] / aug[i][i]
+            old_aug = [row[:] for row in aug]
             for k in range(len(aug[j])):
                 aug[j][k] -= factor * aug[i][k]
-            steps.append({'content': f'Eliminated row {j} using row {i}, factor {factor:.3f}.', 'explanation': 'Subtract multiple of row i from row j to make element below pivot zero.'})
+            steps.append({'content': f'Eliminated row {j} using row {i}, factor {factor:.3f}.<br>New matrix:<br>{format_matrix(aug)}', 'explanation': 'Subtract multiple of row i from row j to make element below pivot zero.'})
     
     # Back substitution
     x = [0] * len(aug)
@@ -204,18 +208,18 @@ def lu_decomposition(A, b, variable, n):
         result.append({'type': 'message', 'content': "LU Decomposition requires square matrix."})
         return {'steps': steps, 'result': result}
     
-    steps.append({'content': 'Starting LU Decomposition.', 'explanation': 'Decompose A into Lower (L) and Upper (U) triangular matrices for efficient solving.'})
+    steps.append({'content': f'Starting LU Decomposition for A:<br>{format_matrix(A)}', 'explanation': 'Decompose A into Lower (L) and Upper (U) triangular matrices for efficient solving.'})
     P, L, U = lu(A)
-    steps.append({'content': 'Decomposed A into P, L, U.', 'explanation': 'P is permutation, L lower triangular, U upper triangular such that P A = L U.'})
+    steps.append({'content': f'Decomposed: P={format_matrix(P)}<br>L={format_matrix(L)}<br>U={format_matrix(U)}', 'explanation': 'P is permutation, L lower triangular, U upper triangular such that P A = L U.'})
     
     # Solve Ly = Pb
     Pb = np.dot(P, b)
     y = np.linalg.solve(L, Pb)
-    steps.append({'content': 'Solved L y = P b.', 'explanation': 'Forward substitution to find y.'})
+    steps.append({'content': f'Solved L y = P b:<br>P b = {Pb}<br>y = {y}', 'explanation': 'Forward substitution to find y.'})
     
     # Solve Ux = y
     x = np.linalg.solve(U, y)
-    steps.append({'content': 'Solved U x = y.', 'explanation': 'Back substitution to find x.'})
+    steps.append({'content': f'Solved U x = y:<br>x = {x}', 'explanation': 'Back substitution to find x.'})
     
     solution = {variable[i]: x[i] for i in range(n)}
     result.append({'type': 'message', 'content': "Solution using LU Decomposition"})
