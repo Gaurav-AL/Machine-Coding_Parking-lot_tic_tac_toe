@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'equations/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Solution</h1>
+        {% for item in result %}
+            <div class="solution-item">
+                {% if item.type == 'solution' %}
+                    <h3>Variables:</h3>
+                    <ul>
+                    {% for key, value in item.content.items %}
+                        <li>{{ key }} = {{ value }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>{{ item.content }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <a href="/" class="btn">Solve Another</a>
+    </div>
+</body>
+</html>

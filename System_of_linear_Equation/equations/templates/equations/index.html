@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solve System of Linear Equations</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'equations/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Solve System of Linear Equations</h1>
+        <p>Enter the dimensions and coefficients for the system Ax = b.</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="R">Number of Equations (Rows in A, R): 
+                    <span class="tooltip">?
+                        <span class="tooltiptext">This is the number of equations. For example, 2 for a 2x2 system.</span>
+                    </span>
+                </label>
+                <input type="number" id="R" name="R" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="C">Number of Variables (Columns in A, C): 
+                    <span class="tooltip">?
+                        <span class="tooltiptext">This is the number of unknowns. Must be >= number of variables (n).</span>
+                    </span>
+                </label>
+                <input type="number" id="C" name="C" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="n">Number of Variables (n): 
+                    <span class="tooltip">?
+                        <span class="tooltiptext">The number of variables to solve for, e.g., x, y, z. Should be <= C.</span>
+                    </span>
+                </label>
+                <input type="number" id="n" name="n" min="1" required>
+            </div>
+            <div class="matrix-container">
+                <div class="matrix-label">
+                    <label>Matrix A (coefficients): 
+                        <span class="tooltip">?
+                            <span class="tooltiptext">Enter the coefficients for each equation. Each cell is a number.</span>
+                        </span>
+                    </label>
+                </div>
+                <div id="matrixA" class="matrix"></div>
+            </div>
+            <div class="matrix-container">
+                <div class="matrix-label">
+                    <label>Vector b (constants): 
+                        <span class="tooltip">?
+                            <span class="tooltiptext">Enter the constant terms for each equation.</span>
+                        </span>
+                    </label>
+                </div>
+                <div id="vectorB" class="vector"></div>
+            </div>
+            <button type="submit">Solve</button>
+        </form>
+        <div class="examples">
+            <h2>Examples</h2>
+            <p>Click on an example to load it into the form. This helps you understand how to fill the inputs and what output to expect.</p>
+            <div id="examples"></div>
+        </div>
+    </div>
+    <script src="{% static 'equations/script.js' %}"></script>
+</body>
+</html>
