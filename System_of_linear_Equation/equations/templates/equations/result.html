@@ -8,6 +8,17 @@
 <body>
     <div class="container">
         <h1>Solution</h1>
+        {% if steps %}
+            <h2>Solving Steps (Hover for Explanation):</h2>
+            <div class="steps-container">
+            {% for step in steps %}
+                <div class="step">
+                    <div class="step-content">{{ step.content }}</div>
+                    <div class="step-explanation">{{ step.explanation }}</div>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
         {% for item in result %}
             <div class="solution-item">
                 {% if item.type == 'solution' %}

@@ -6,11 +6,29 @@
     <link rel="stylesheet" type="text/css" href="{% static 'equations/style.css' %}">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h2>Linear Equation Solvers</h2>
+            <ul>
+                <li><a href="#" class="active">General Solver</a></li>
+                <li><a href="#">Gaussian Elimination</a></li>
+                <li><a href="#">LU Decomposition</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <h1>Solve System of Linear Equations</h1>
         <p>Enter the dimensions and coefficients for the system Ax = b.</p>
         <form method="post">
             {% csrf_token %}
+            <div class="form-group">
+                <label for="method">Solving Method:</label>
+                <select id="method" name="method">
+                    <option value="auto">Automatic</option>
+                    <option value="gaussian">Gaussian Elimination</option>
+                    <option value="lu">LU Decomposition</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="R">Number of Equations (Rows in A, R): 
                     <span class="tooltip">?
